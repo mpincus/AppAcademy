@@ -1,0 +1,13 @@
+window.ace_load = function aceLoad(id, options, ref) {
+    var editor = ace.edit(id, options);
+
+    editor.session.on("change", function() { ace_editor_debounce_fn(editor, ref); });
+
+    return editor;
+}
+
+window.ace_editor_changed = function updateMessageCallerJs(editor, ref) {
+    ref.invokeMethodAsync("OnAceEditorValueChanged", editor.getValue());
+}
+
+window.ace_editor_debounce_fn = _.debounce(ace_editor_changed, 1000, false);
